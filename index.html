@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IA-Desk — Atención inteligente 24/7 para tu negocio</title>
+  <meta name="description" content="Automatizá las consultas repetitivas por WhatsApp y en tu web. Capturá leads calificados y atendé a tus clientes las 24 horas con inteligencia artificial." />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --verde: #0F6E56;
+      --verde-claro: #E1F5EE;
+      --verde-medio: #5DCAA5;
+      --texto: #1a1a1a;
+      --texto-suave: #5a5a5a;
+      --borde: #e5e5e5;
+      --fondo: #ffffff;
+      --fondo-alt: #f8faf9;
+      --radio: 10px;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      color: var(--texto);
+      background: var(--fondo);
+      line-height: 1.6;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: inherit; }
+
+    /* ===== NAVBAR ===== */
+    .nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--borde);
+      z-index: 100;
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+    }
+    .nav-logo {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--verde);
+      letter-spacing: -.5px;
+    }
+    .nav-logo span { color: var(--texto); font-weight: 400; }
+    .nav-cta {
+      background: var(--verde);
+      color: #fff;
+      padding: 9px 22px;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 500;
+      border: none;
+      transition: opacity .2s;
+    }
+    .nav-cta:hover { opacity: .88; }
+
+    /* ===== HERO ===== */
+    .hero {
+      padding: 80px 24px 60px;
+      text-align: center;
+      background: var(--fondo);
+    }
+    .hero-inner { max-width: 720px; margin: 0 auto; }
+    .badge {
+      display: inline-block;
+      background: var(--verde-claro);
+      color: #085041;
+      font-size: 12px;
+      font-weight: 600;
+      padding: 5px 14px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+      letter-spacing: .04em;
+    }
+    .hero h1 {
+      font-size: clamp(32px, 6vw, 52px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 20px;
+      letter-spacing: -.5px;
+    }
+    .hero h1 em { color: var(--verde); font-style: normal; }
+    .hero p {
+      font-size: 18px;
+      color: var(--texto-suave);
+      max-width: 520px;
+      margin: 0 auto 36px;
+    }
+    .hero-btns {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 56px;
+    }
+    .btn-primary {
+      background: var(--verde);
+      color: #fff;
+      padding: 14px 32px;
+      border-radius: 9px;
+      font-size: 16px;
+      font-weight: 600;
+      border: none;
+      transition: opacity .2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-primary:hover { opacity: .88; }
+    .btn-outline {
+      background: #fff;
+      color: var(--texto);
+      padding: 14px 32px;
+      border-radius: 9px;
+      font-size: 16px;
+      font-weight: 500;
+      border: 1.5px solid var(--borde);
+      transition: border-color .2s;
+    }
+    .btn-outline:hover { border-color: var(--verde); }
+
+    /* ===== CHAT DEMO ===== */
+    .demos {
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      flex-wrap: wrap;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .demo-card {
+      background: #fff;
+      border: 1px solid var(--borde);
+      border-radius: 16px;
+      overflow: hidden;
+      width: 300px;
+      flex-shrink: 0;
+    }
+    .demo-header {
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .demo-header.wa { background: #075E54; }
+    .demo-header.web { background: var(--verde); }
+    .demo-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: var(--verde-medio);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .demo-name { color: #fff; font-size: 13px; font-weight: 600; }
+    .demo-sub { color: rgba(255,255,255,.7); font-size: 11px; }
+    .demo-tag {
+      margin-left: auto;
+      background: rgba(255,255,255,.2);
+      color: #fff;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 10px;
+    }
+    .demo-body {
+      padding: 12px;
+      background: #ece5dd;
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      min-height: 180px;
+    }
+    .demo-body.web-bg { background: #f5f5f5; }
+    .bubble {
+      max-width: 82%;
+      padding: 7px 11px;
+      border-radius: 10px;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+    .bubble-bot { background: #fff; color: #1a1a1a; align-self: flex-start; border-bottom-left-radius: 2px; }
+    .bubble-user { background: #dcf8c6; color: #1a1a1a; align-self: flex-end; border-bottom-right-radius: 2px; }
+    .bubble-web-user { background: var(--verde); color: #fff; align-self: flex-end; border-bottom-right-radius: 2px; }
+    .btime { font-size: 9px; color: #aaa; text-align: right; margin-top: 2px; }
+
+    /* ===== SECCIONES ===== */
+    .seccion { padding: 72px 24px; }
+    .seccion.alt { background: var(--fondo-alt); }
+    .seccion-inner { max-width: 1100px; margin: 0 auto; }
+    .seccion-label {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--verde);
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 10px;
+    }
+    .seccion h2 {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+      margin-bottom: 14px;
+      letter-spacing: -.3px;
+    }
+    .seccion-desc {
+      font-size: 17px;
+      color: var(--texto-suave);
+      max-width: 560px;
+      margin-bottom: 48px;
+    }
+
+    /* ===== CANALES ===== */
+    .canales {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .canal-card {
+      background: #fff;
+      border: 1px solid var(--borde);
+      border-radius: 14px;
+      padding: 28px;
+    }
+    .canal-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      margin-bottom: 16px;
+    }
+    .canal-icon.wa { background: #e8f5e9; }
+    .canal-icon.web { background: var(--verde-claro); }
+    .canal-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+    .canal-card p { font-size: 14px; color: var(--texto-suave); line-height: 1.6; }
+    .canal-tag {
+      display: inline-block;
+      margin-top: 14px;
+      background: var(--verde-claro);
+      color: #085041;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    /* ===== PROBLEMA ===== */
+    .prob-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 16px;
+    }
+    .prob-card {
+      background: #fff;
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 24px;
+    }
+    .prob-icon { font-size: 28px; margin-bottom: 12px; }
+    .prob-card h3 { font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .prob-card p { font-size: 13px; color: var(--texto-suave); line-height: 1.55; }
+
+    /* ===== PASOS ===== */
+    .pasos { display: flex; flex-direction: column; gap: 24px; }
+    .paso { display: flex; gap: 20px; align-items: flex-start; }
+    .paso-num {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--verde-claro);
+      color: var(--verde);
+      font-size: 16px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .paso-titulo { font-size: 17px; font-weight: 700; margin-bottom: 4px; }
+    .paso-desc { font-size: 14px; color: var(--texto-suave); line-height: 1.6; }
+
+    /* ===== RUBROS ===== */
+    .rubros { display: flex; flex-wrap: wrap; gap: 10px; }
+    .rubro {
+      background: #fff;
+      border: 1px solid var(--borde);
+      border-radius: 20px;
+      padding: 7px 16px;
+      font-size: 14px;
+      color: var(--texto-suave);
+    }
+
+    /* ===== MÉTRICAS ===== */
+    .metricas {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 16px;
+    }
+    .metrica {
+      background: #fff;
+      border: 1px solid var(--borde);
+      border-radius: 12px;
+      padding: 24px 16px;
+      text-align: center;
+    }
+    .metrica-num { font-size: 36px; font-weight: 700; color: var(--verde); }
+    .metrica-label { font-size: 13px; color: var(--texto-suave); margin-top: 4px; }
+
+    /* ===== FAQ ===== */
+    .faq { display: flex; flex-direction: column; gap: 0; max-width: 680px; }
+    .faq-item { border-bottom: 1px solid var(--borde); padding: 20px 0; }
+    .faq-q { font-size: 16px; font-weight: 600; margin-bottom: 8px; }
+    .faq-a { font-size: 14px; color: var(--texto-suave); line-height: 1.65; }
+
+    /* ===== CTA FINAL ===== */
+    .cta-final {
+      background: var(--verde);
+      padding: 80px 24px;
+      text-align: center;
+      color: #fff;
+    }
+    .cta-final h2 { font-size: clamp(24px, 4vw, 38px); font-weight: 700; margin-bottom: 14px; }
+    .cta-final p { font-size: 17px; opacity: .85; margin-bottom: 36px; }
+    .btn-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: #25D366;
+      color: #fff;
+      padding: 16px 36px;
+      border-radius: 10px;
+      font-size: 17px;
+      font-weight: 600;
+      border: none;
+      transition: opacity .2s;
+    }
+    .btn-wa:hover { opacity: .9; }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: #111;
+      color: #888;
+      text-align: center;
+      padding: 28px 24px;
+      font-size: 13px;
+    }
+    footer strong { color: #fff; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 600px) {
+      .hero { padding: 56px 20px 40px; }
+      .seccion { padding: 52px 20px; }
+      .demos { flex-direction: column; align-items: center; }
+      .demo-card { width: 100%; max-width: 320px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <div class="nav-inner">
+      <div class="nav-logo">IA<span>-Desk</span></div>
+      <a href="https://wa.me/5493517462986?text=Hola%2C%20quiero%20info%20sobre%20IA-Desk" target="_blank">
+        <button class="nav-cta">Hablar con nosotros</button>
+      </a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="badge">Inteligencia artificial para negocios</div>
+      <h1>Tu negocio atiende solo,<br><em>las 24 horas</em></h1>
+      <p>Automatizá las consultas repetitivas, capturá leads calificados y dejá que tu equipo se enfoque en cerrar ventas.</p>
+      <div class="hero-btns">
+        <a href="https://wa.me/5493517462986?text=Hola%2C%20quiero%20una%20demo%20gratuita%20de%20IA-Desk" target="_blank">
+          <button class="btn-primary">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.526 5.853L0 24l6.303-1.653A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.881 0-3.64-.497-5.157-1.367l-.37-.22-3.742.981.998-3.65-.242-.378A9.964 9.964 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+            Quiero una demo gratuita
+          </button>
+        </a>
+        <a href="#como-funciona">
+          <button class="btn-outline">Ver cómo funciona</button>
+        </a>
+      </div>
+
+      <!-- DEMOS -->
+      <div class="demos">
+        <div class="demo-card">
+          <div class="demo-header wa">
+            <div class="demo-avatar">🤖</div>
+            <div>
+              <div class="demo-name">Asistente virtual</div>
+              <div class="demo-sub">En línea ahora</div>
+            </div>
+            <div class="demo-tag">WhatsApp</div>
+          </div>
+          <div class="demo-body">
+            <div class="bubble bubble-user">Hola, cuánto sale el servicio?<div class="btime">10:32</div></div>
+            <div class="bubble bubble-bot">¡Hola! Te cuento todo sobre nuestros planes. ¿Cuál es tu rubro?<div class="btime">10:32</div></div>
+            <div class="bubble bubble-user">Tengo una clínica dental<div class="btime">10:33</div></div>
+            <div class="bubble bubble-bot">Perfecto. Para clínicas tenemos una solución específica. Te paso los detalles 👇<div class="btime">10:33</div></div>
+          </div>
+        </div>
+        <div class="demo-card">
+          <div class="demo-header web">
+            <div class="demo-avatar">🌐</div>
+            <div>
+              <div class="demo-name">Chat en tu web</div>
+              <div class="demo-sub">Disponible 24/7</div>
+            </div>
+            <div class="demo-tag">Web</div>
+          </div>
+          <div class="demo-body web-bg">
+            <div class="bubble bubble-bot">¡Hola! ¿En qué puedo ayudarte hoy?<div class="btime">15:10</div></div>
+            <div class="bubble bubble-web-user">Quiero saber los horarios<div class="btime">15:11</div></div>
+            <div class="bubble bubble-bot">Atendemos lunes a viernes de 9 a 18hs y sábados de 9 a 13hs. ¿Querés reservar un turno?<div class="btime">15:11</div></div>
+            <div class="bubble bubble-web-user">Sí, para el lunes<div class="btime">15:12</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CANALES -->
+  <section class="seccion alt">
+    <div class="seccion-inner">
+      <div class="seccion-label">Dos canales, un solo sistema</div>
+      <h2>Donde tu cliente escribe,<br>el bot responde</h2>
+      <p class="seccion-desc">No importa si te contactan por WhatsApp o desde tu página web — el mismo asistente inteligente atiende en ambos lugares.</p>
+      <div class="canales">
+        <div class="canal-card">
+          <div class="canal-icon wa">📱</div>
+          <h3>Bot de WhatsApp</h3>
+          <p>Tu número de WhatsApp Business responde automáticamente las 24 horas. Consultas, precios, disponibilidad, reservas — todo sin intervención humana.</p>
+          <span class="canal-tag">WhatsApp Business API</span>
+        </div>
+        <div class="canal-card">
+          <div class="canal-icon web">💬</div>
+          <h3>Chat en tu web</h3>
+          <p>Instalamos un widget de chat en tu página web existente. El visitante chatea directamente desde el sitio y recibe respuestas al instante, sin salir de tu página.</p>
+          <span class="canal-tag">Se integra en cualquier web</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEMA -->
+  <section class="seccion">
+    <div class="seccion-inner">
+      <div class="seccion-label">El problema</div>
+      <h2>Respondés las mismas preguntas todo el día</h2>
+      <p class="seccion-desc">Cada respuesta manual es tiempo que no dedicás a vender, producir o atender mejor a quienes ya son clientes.</p>
+      <div class="prob-grid">
+        <div class="prob-card">
+          <div class="prob-icon">🌙</div>
+          <h3>Consultas fuera de horario</h3>
+          <p>El cliente pregunta a las 11pm y no recibe respuesta hasta el día siguiente. Ya buscó otra opción.</p>
+        </div>
+        <div class="prob-card">
+          <div class="prob-icon">🔁</div>
+          <h3>Siempre las mismas preguntas</h3>
+          <p>Tu equipo responde lo mismo 20 veces por día en lugar de enfocarse en cerrar ventas.</p>
+        </div>
+        <div class="prob-card">
+          <div class="prob-icon">💨</div>
+          <h3>Leads que se pierden</h3>
+          <p>Un interesado que no recibe respuesta rápida se va a la competencia. Sin rastro, sin seguimiento.</p>
+        </div>
+        <div class="prob-card">
+          <div class="prob-icon">📋</div>
+          <h3>Sin registro de consultas</h3>
+          <p>No sabés cuánta gente preguntó, qué preguntó ni cuántos se convirtieron en clientes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CÓMO FUNCIONA -->
+  <section class="seccion alt" id="como-funciona">
+    <div class="seccion-inner">
+      <div class="seccion-label">Cómo funciona</div>
+      <h2>Simple para el cliente,<br>poderoso para vos</h2>
+      <p class="seccion-desc">El bot conoce tu negocio, responde con tu tono y captura cada lead automáticamente.</p>
+      <div class="pasos">
+        <div class="paso">
+          <div class="paso-num">1</div>
+          <div>
+            <div class="paso-titulo">El cliente escribe</div>
+            <div class="paso-desc">Por WhatsApp o desde tu web, a cualquier hora. El bot responde en segundos con información real de tu negocio.</div>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-num">2</div>
+          <div>
+            <div class="paso-titulo">Resuelve o califica</div>
+            <div class="paso-desc">Si la consulta es general, la responde solo. Si el interés es concreto, recopila nombre, necesidad y datos de contacto.</div>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-num">3</div>
+          <div>
+            <div class="paso-titulo">Deriva cuando hace falta</div>
+            <div class="paso-desc">Cuando la situación lo requiere, avisa a tu equipo con un resumen. Vos intervenís solo donde importa.</div>
+          </div>
+        </div>
+        <div class="paso">
+          <div class="paso-num">4</div>
+          <div>
+            <div class="paso-titulo">Panel de control incluido</div>
+            <div class="paso-desc">Ves todas las conversaciones, los leads capturados y las métricas de atención desde un panel simple y claro.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RUBROS -->
+  <section class="seccion">
+    <div class="seccion-inner">
+      <div class="seccion-label">Para cualquier rubro</div>
+      <h2>Si tenés consultas repetitivas,<br>esto es para vos</h2>
+      <p class="seccion-desc">Funcionamos con cualquier tipo de negocio que reciba consultas por WhatsApp o tenga página web.</p>
+      <div class="rubros">
+        <div class="rubro">Salud y bienestar</div>
+        <div class="rubro">Gastronomía</div>
+        <div class="rubro">Inmobiliarias</div>
+        <div class="rubro">Educación</div>
+        <div class="rubro">Seguros</div>
+        <div class="rubro">Comercios</div>
+        <div class="rubro">Turismo y hotelería</div>
+        <div class="rubro">Estética y belleza</div>
+        <div class="rubro">Veterinarias</div>
+        <div class="rubro">Gym y deporte</div>
+        <div class="rubro">Servicios profesionales</div>
+        <div class="rubro">Logística</div>
+        <div class="rubro">Y mucho más</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MÉTRICAS -->
+  <section class="seccion alt">
+    <div class="seccion-inner">
+      <div class="seccion-label">Lo que cambia</div>
+      <h2>Desde el primer día</h2>
+      <p class="seccion-desc" style="margin-bottom:36px">Tu negocio empieza a responder, a registrar y a convertir consultas en clientes.</p>
+      <div class="metricas">
+        <div class="metrica">
+          <div class="metrica-num">24/7</div>
+          <div class="metrica-label">Atención sin interrupciones</div>
+        </div>
+        <div class="metrica">
+          <div class="metrica-num">&lt; 5s</div>
+          <div class="metrica-label">Tiempo de respuesta</div>
+        </div>
+        <div class="metrica">
+          <div class="metrica-num">0</div>
+          <div class="metrica-label">Consultas sin respuesta</div>
+        </div>
+        <div class="metrica">
+          <div class="metrica-num">100%</div>
+          <div class="metrica-label">Personalizado a tu negocio</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="seccion">
+    <div class="seccion-inner">
+      <div class="seccion-label">Preguntas frecuentes</div>
+      <h2>Lo que suelen preguntar</h2>
+      <div class="faq" style="margin-top:36px">
+        <div class="faq-item">
+          <div class="faq-q">¿Necesito saber de tecnología para usarlo?</div>
+          <div class="faq-a">No. Nos encargamos de toda la configuración e instalación. Vos solo usás el panel de control, que es simple e intuitivo.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">¿El bot responde con el tono de mi negocio?</div>
+          <div class="faq-a">Sí. Lo entrenamos con la información, el tono y el estilo que nos indicás. El cliente recibe respuestas que suenan como las de tu equipo.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">¿Se instala en mi web actual?</div>
+          <div class="faq-a">Sí. El chat web se integra en cualquier página existente con una línea de código. No hace falta cambiar nada del diseño actual.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">¿Qué pasa si el bot no sabe responder algo?</div>
+          <div class="faq-a">El bot detecta cuando la consulta supera su conocimiento y deriva automáticamente a tu equipo con un resumen de la conversación.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">¿Cuánto tarda en estar funcionando?</div>
+          <div class="faq-a">Entre 5 y 10 días hábiles desde que confirmás la contratación, dependiendo de la complejidad del negocio.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">¿Puedo actualizar la información del bot cuando quiero?</div>
+          <div class="faq-a">Sí. Desde el panel podés actualizar precios, servicios, horarios y cualquier dato en cualquier momento.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="cta-final">
+    <h2>¿Listo para automatizar tu atención?</h2>
+    <p>Hablemos. Te mostramos cómo funciona con un ejemplo de tu propio negocio, sin costo.</p>
+    <a href="https://wa.me/5493517462986?text=Hola%2C%20quiero%20una%20demo%20gratuita%20de%20IA-Desk" target="_blank">
+      <button class="btn-wa">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.126.555 4.122 1.526 5.853L0 24l6.303-1.653A11.946 11.946 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22c-1.881 0-3.64-.497-5.157-1.367l-.37-.22-3.742.981.998-3.65-.242-.378A9.964 9.964 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+        Agendar demo gratuita
+      </button>
+    </a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <strong>IA-Desk</strong> · Atención inteligente para negocios · <a href="https://wa.me/5493517462986" target="_blank" style="color:#888;text-decoration:underline">Contacto</a>
+  </footer>
+
+</body>
+</html>
