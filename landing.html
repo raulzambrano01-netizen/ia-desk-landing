@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IA-Desk — Inteligencia artificial para negocios</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; color: #1a1a2e; line-height: 1.6; }
+    a { text-decoration: none; color: inherit; }
+
+    /* ── NAV ── */
+    nav {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 40px; position: sticky; top: 0; background: white;
+      border-bottom: 1px solid #f0f0f0; z-index: 100;
+    }
+    .logo { font-weight: 800; font-size: 18px; letter-spacing: -0.5px; }
+    .logo span { color: #00a884; }
+    .nav-btn {
+      background: #1a1a2e; color: white; border: none; border-radius: 8px;
+      padding: 10px 20px; font-weight: 600; font-size: 14px; cursor: pointer;
+    }
+
+    /* ── HERO ── */
+    .hero { text-align: center; padding: 80px 20px 60px; max-width: 760px; margin: 0 auto; }
+    .badge {
+      display: inline-block; background: #e8f5f0; color: #00a884;
+      padding: 4px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; margin-bottom: 20px;
+    }
+    .hero h1 { font-size: 48px; font-weight: 800; line-height: 1.15; margin-bottom: 20px; letter-spacing: -1px; }
+    .hero h1 span { color: #00a884; }
+    .hero p { font-size: 18px; color: #555; margin-bottom: 32px; max-width: 560px; margin-left: auto; margin-right: auto; }
+    .hero-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      background: #25d366; color: white; border: none; border-radius: 10px;
+      padding: 14px 28px; font-weight: 700; font-size: 15px; cursor: pointer;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .btn-secondary {
+      background: white; color: #1a1a2e; border: 2px solid #e0e0e0; border-radius: 10px;
+      padding: 14px 28px; font-weight: 600; font-size: 15px; cursor: pointer;
+    }
+
+    /* ── MOCK CHATS ── */
+    .mocks { display: flex; gap: 20px; justify-content: center; padding: 40px 20px; flex-wrap: wrap; }
+    .mock-card {
+      background: #f8f9fa; border-radius: 16px; padding: 16px; width: 240px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+    }
+    .mock-header { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+    .mock-avatar { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
+    .mock-name { font-weight: 700; font-size: 13px; }
+    .mock-status { font-size: 11px; color: #00a884; }
+    .mock-tag { font-size: 10px; background: #25d366; color: white; padding: 2px 8px; border-radius: 4px; margin-left: auto; font-weight: 600; }
+    .mock-tag.web { background: #1a1a2e; }
+    .bubble { border-radius: 12px; padding: 8px 12px; font-size: 12px; margin-bottom: 6px; max-width: 90%; line-height: 1.4; }
+    .bubble.bot { background: white; align-self: flex-start; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .bubble.user { background: #dcf8c6; align-self: flex-end; margin-left: auto; }
+    .bubble.user-web { background: #1a1a2e; color: white; align-self: flex-end; margin-left: auto; }
+    .bubbles { display: flex; flex-direction: column; }
+
+    /* ── SECCIONES ── */
+    section { padding: 80px 20px; }
+    .section-label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #00a884; margin-bottom: 12px; }
+    .section-title { font-size: 36px; font-weight: 800; line-height: 1.2; margin-bottom: 16px; letter-spacing: -0.5px; }
+    .section-sub { font-size: 16px; color: #555; max-width: 520px; }
+    .container { max-width: 1000px; margin: 0 auto; }
+
+    /* ── DOS CANALES ── */
+    .canales-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 40px; }
+    @media (max-width: 600px) { .canales-grid { grid-template-columns: 1fr; } }
+    .canal-card { border: 1px solid #e8e8e8; border-radius: 14px; padding: 24px; }
+    .canal-card h3 { font-size: 17px; font-weight: 700; margin: 12px 0 8px; }
+    .canal-card p { font-size: 14px; color: #666; }
+    .canal-tag { display: inline-block; background: #f0f0f0; color: #555; font-size: 11px; padding: 3px 10px; border-radius: 6px; margin-top: 12px; font-weight: 600; }
+
+    /* ── EL PROBLEMA ── */
+    .problema-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+    @media (max-width: 700px) { .problema-grid { grid-template-columns: 1fr 1fr; } }
+    .problema-card { background: #f8f9fa; border-radius: 12px; padding: 20px; }
+    .problema-card .icon { font-size: 24px; margin-bottom: 10px; }
+    .problema-card h4 { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
+    .problema-card p { font-size: 13px; color: #666; }
+
+    /* ── CÓMO FUNCIONA ── */
+    .como-grid { display: flex; flex-direction: column; gap: 20px; margin-top: 40px; max-width: 600px; }
+    .como-item { display: flex; gap: 16px; align-items: flex-start; }
+    .como-num {
+      width: 32px; height: 32px; background: #1a1a2e; color: white;
+      border-radius: 50%; display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px; flex-shrink: 0;
+    }
+    .como-item h4 { font-size: 15px; font-weight: 700; margin-bottom: 4px; }
+    .como-item p { font-size: 14px; color: #666; }
+
+    /* ── RUBROS ── */
+    .rubros-bg { background: #f8f9fa; }
+    .tags { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 24px; }
+    .tag { background: white; border: 1px solid #e0e0e0; padding: 8px 16px; border-radius: 20px; font-size: 13px; font-weight: 500; }
+
+    /* ── MÉTRICAS ── */
+    .metricas-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 40px; }
+    @media (max-width: 600px) { .metricas-grid { grid-template-columns: 1fr 1fr; } }
+    .metrica-card { background: white; border: 1px solid #e8e8e8; border-radius: 14px; padding: 24px; text-align: center; }
+    .metrica-num { font-size: 36px; font-weight: 800; color: #00a884; }
+    .metrica-label { font-size: 13px; color: #666; margin-top: 4px; }
+
+    /* ── FAQ ── */
+    .faq-list { margin-top: 40px; max-width: 680px; }
+    .faq-item { border-bottom: 1px solid #eee; padding: 20px 0; }
+    .faq-item h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
+    .faq-item p { font-size: 14px; color: #555; }
+
+    /* ── CTA FINAL ── */
+    .cta-final { background: #1a1a2e; color: white; text-align: center; padding: 80px 20px; }
+    .cta-final h2 { font-size: 36px; font-weight: 800; margin-bottom: 16px; }
+    .cta-final p { font-size: 16px; color: rgba(255,255,255,0.7); margin-bottom: 32px; }
+    .btn-cta {
+      background: #25d366; color: white; border: none; border-radius: 10px;
+      padding: 16px 32px; font-weight: 700; font-size: 16px; cursor: pointer;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+
+    /* ── CHAT WIDGET ── */
+    #chat-bubble {
+      position: fixed; bottom: 24px; right: 24px; width: 56px; height: 56px;
+      background: #25d366; border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; cursor: pointer; box-shadow: 0 4px 16px rgba(0,0,0,0.25);
+      z-index: 1000; transition: transform 0.2s;
+    }
+    #chat-bubble:hover { transform: scale(1.08); }
+    #chat-bubble svg { width: 28px; height: 28px; fill: white; }
+    #chat-window {
+      position: fixed; bottom: 92px; right: 24px; width: 320px; max-height: 460px;
+      background: white; border-radius: 16px; box-shadow: 0 8px 32px rgba(0,0,0,0.18);
+      display: flex; flex-direction: column; overflow: hidden; z-index: 999;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    @media (max-width: 400px) { #chat-window { width: calc(100vw - 32px); right: 16px; bottom: 80px; } }
+    #chat-window.hidden { opacity: 0; pointer-events: none; transform: translateY(12px); }
+    #chat-header { background: #1a1a2e; color: white; padding: 12px 16px; display: flex; align-items: center; gap: 10px; }
+    #chat-close { margin-left: auto; background: none; border: none; color: white; font-size: 20px; cursor: pointer; line-height: 1; opacity: 0.8; padding: 0 2px; }
+    #chat-close:hover { opacity: 1; }
+    #chat-header .avatar { width: 36px; height: 36px; background: rgba(255,255,255,0.15); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; }
+    #chat-header .name { font-weight: 600; font-size: 15px; }
+    #chat-header .status { font-size: 12px; color: #25d366; }
+    #chat-messages { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 8px; background: #f8f9fa; }
+    .msg { max-width: 80%; padding: 9px 12px; border-radius: 12px; font-size: 14px; line-height: 1.45; word-break: break-word; }
+    .msg.bot { background: white; align-self: flex-start; border-bottom-left-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    .msg.user { background: #1a1a2e; color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
+    .msg.typing { background: white; align-self: flex-start; color: #888; font-style: italic; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+    #chat-input-area { display: flex; gap: 8px; padding: 12px; border-top: 1px solid #eee; background: white; }
+    #chat-input { flex: 1; border: 1px solid #ddd; border-radius: 20px; padding: 9px 14px; font-size: 14px; outline: none; resize: none; font-family: inherit; }
+    #chat-input:focus { border-color: #1a1a2e; }
+    #chat-send { width: 38px; height: 38px; background: #25d366; border: none; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; align-self: flex-end; }
+    #chat-send svg { width: 18px; height: 18px; fill: white; }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="logo">IA<span>-Desk</span></div>
+  <button class="nav-btn" onclick="window.open('https://wa.me/543513606158','_blank')">Hablar con nosotros</button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">Inteligencia artificial para negocios</div>
+  <h1>Tu negocio atiende solo,<br><span>las 24 horas</span></h1>
+  <p>Automatizá las consultas repetitivas, capturá leads calificados y dejá que tu equipo se enfoque en cerrar ventas.</p>
+  <div class="hero-btns">
+    <button class="btn-primary" onclick="toggleChat()">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="white"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+      Quiero una demo gratuita
+    </button>
+    <button class="btn-secondary" onclick="document.getElementById('como').scrollIntoView({behavior:'smooth'})">Ver cómo funciona</button>
+  </div>
+</div>
+
+<!-- MOCK CHATS -->
+<div class="mocks">
+  <div class="mock-card">
+    <div class="mock-header">
+      <div class="mock-avatar" style="background:#e8f5f0">🤖</div>
+      <div>
+        <div class="mock-name">Asistente virtual</div>
+        <div class="mock-status">En línea ahora</div>
+      </div>
+      <div class="mock-tag">WhatsApp</div>
+    </div>
+    <div class="bubbles">
+      <div class="bubble bot">Hola, ¿en qué sale el servicio?</div>
+      <div class="bubble bot">¡Hola! Te cuento todo sobre nuestros planes. ¿Cuál es tu rubro?</div>
+      <div class="bubble user">Tengo una clínica dental</div>
+      <div class="bubble bot">Perfecto. Para clínicas tenemos una solución específica. Te paso los detalles 👇</div>
+    </div>
+  </div>
+  <div class="mock-card">
+    <div class="mock-header">
+      <div class="mock-avatar" style="background:#e3f2fd">💬</div>
+      <div>
+        <div class="mock-name">Chat en tu web</div>
+        <div class="mock-status">Disponible 24/7</div>
+      </div>
+      <div class="mock-tag web">Web</div>
+    </div>
+    <div class="bubbles">
+      <div class="bubble bot">¡Hola! ¿En qué puedo ayudarte hoy?</div>
+      <div class="bubble user-web">Quiero saber los horarios</div>
+      <div class="bubble bot">Atendemos lunes a viernes de 9 a 18hs y sábados de 9 a 13hs. ¿Querés reservar un turno?</div>
+      <div class="bubble user-web">Sí, para el lunes</div>
+    </div>
+  </div>
+</div>
+
+<!-- DOS CANALES -->
+<section>
+  <div class="container">
+    <div class="section-label">DOS CANALES, UN SOLO SISTEMA</div>
+    <div class="section-title">Donde tu cliente escribe,<br>el bot responde</div>
+    <p class="section-sub">No importa si te contactan por WhatsApp o desde tu página web — el mismo asistente inteligente atiende en ambos lugares.</p>
+    <div class="canales-grid">
+      <div class="canal-card">
+        <div style="font-size:28px">📱</div>
+        <h3>Bot de WhatsApp</h3>
+        <p>Tu número de WhatsApp Business responde automáticamente las 24 horas. Consultas, precios, disponibilidad, reservas — todo sin intervención humana.</p>
+        <div class="canal-tag">WhatsApp Business API</div>
+      </div>
+      <div class="canal-card">
+        <div style="font-size:28px">💻</div>
+        <h3>Chat en tu web</h3>
+        <p>Instalamos un widget de chat en tu página web existente. El visitante chatea directamente desde el sitio y recibe respuestas al instante, sin salir de tu página.</p>
+        <div class="canal-tag">Se integra en cualquier web</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EL PROBLEMA -->
+<section style="background:#f8f9fa">
+  <div class="container">
+    <div class="section-label">EL PROBLEMA</div>
+    <div class="section-title">Respondés las mismas<br>preguntas todo el día</div>
+    <p class="section-sub">Cada respuesta manual es tiempo que no dedicás a vender, producir o atender mejor a quienes ya son clientes.</p>
+    <div class="problema-grid">
+      <div class="problema-card">
+        <div class="icon">🌙</div>
+        <h4>Consultas fuera de horario</h4>
+        <p>El cliente pregunta a las 11pm y no recibe respuesta hasta el día siguiente. Ya buscó otra opción.</p>
+      </div>
+      <div class="problema-card">
+        <div class="icon">🔁</div>
+        <h4>Siempre las mismas preguntas</h4>
+        <p>Tu equipo responde lo mismo 20 veces por día en lugar de enfocarse en cerrar ventas.</p>
+      </div>
+      <div class="problema-card">
+        <div class="icon">📉</div>
+        <h4>Leads que se pierden</h4>
+        <p>Un interesado que no recibe respuesta rápida se va a la competencia. Sin rastro, sin seguimiento.</p>
+      </div>
+      <div class="problema-card">
+        <div class="icon">📋</div>
+        <h4>Sin registro de consultas</h4>
+        <p>No sabés cuánta gente preguntó, qué preguntó ni cuántos se convirtieron en clientes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CÓMO FUNCIONA -->
+<section id="como">
+  <div class="container">
+    <div class="section-label">CÓMO FUNCIONA</div>
+    <div class="section-title">Simple para el cliente,<br>poderoso para vos</div>
+    <p class="section-sub">El bot conoce tu negocio, responde con tu tono y captura cada lead automáticamente.</p>
+    <div class="como-grid">
+      <div class="como-item">
+        <div class="como-num">1</div>
+        <div>
+          <h4>El cliente escribe</h4>
+          <p>Por WhatsApp o desde tu web, a cualquier hora. El bot responde en segundos con información real de tu negocio.</p>
+        </div>
+      </div>
+      <div class="como-item">
+        <div class="como-num">2</div>
+        <div>
+          <h4>Resuelve o califica</h4>
+          <p>Si la consulta es general, la responde solo. Si el interés es concreto, recopila nombre, necesidad y datos de contacto.</p>
+        </div>
+      </div>
+      <div class="como-item">
+        <div class="como-num">3</div>
+        <div>
+          <h4>Deriva cuando hace falta</h4>
+          <p>Cuando la situación lo requiere, avisa a tu equipo con un resumen. Vos intervenís solo donde importa.</p>
+        </div>
+      </div>
+      <div class="como-item">
+        <div class="como-num">4</div>
+        <div>
+          <h4>Panel de control incluido</h4>
+          <p>Ves todas las conversaciones, los leads capturados y las métricas de atención desde un panel simple y claro.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RUBROS -->
+<section class="rubros-bg">
+  <div class="container">
+    <div class="section-label">PARA CUALQUIER RUBRO</div>
+    <div class="section-title">Si tenés consultas repetitivas,<br>esto es para vos</div>
+    <p class="section-sub">Funcionamos con cualquier tipo de negocio que reciba consultas por WhatsApp o tenga página web.</p>
+    <div class="tags">
+      <div class="tag">Salud y bienestar</div>
+      <div class="tag">Gastronomía</div>
+      <div class="tag">Inmobiliarias</div>
+      <div class="tag">Educación</div>
+      <div class="tag">Seguros</div>
+      <div class="tag">Comercios</div>
+      <div class="tag">Turismo y hotelería</div>
+      <div class="tag">Estética y belleza</div>
+      <div class="tag">Veterinarias</div>
+      <div class="tag">Gym y deporte</div>
+      <div class="tag">Servicios profesionales</div>
+      <div class="tag">Logística</div>
+      <div class="tag">Y mucho más</div>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTRICAS -->
+<section>
+  <div class="container">
+    <div class="section-label">LO QUE CAMBIA</div>
+    <div class="section-title">Desde el primer día</div>
+    <p class="section-sub">Tu negocio empieza a responder, a registrar y a convertir consultas en clientes.</p>
+    <div class="metricas-grid">
+      <div class="metrica-card">
+        <div class="metrica-num">24/7</div>
+        <div class="metrica-label">Atención sin interrupciones</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-num">&lt; 5s</div>
+        <div class="metrica-label">Tiempo de respuesta</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-num">0</div>
+        <div class="metrica-label">Consultas sin respuesta</div>
+      </div>
+      <div class="metrica-card">
+        <div class="metrica-num">100%</div>
+        <div class="metrica-label">Personalizado a tu negocio</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section style="background:#f8f9fa">
+  <div class="container">
+    <div class="section-label">PREGUNTAS FRECUENTES</div>
+    <div class="section-title">Lo que suelen preguntar</div>
+    <div class="faq-list">
+      <div class="faq-item">
+        <h4>¿Necesito saber de tecnología para usarlo?</h4>
+        <p>No. Nos encargamos de toda la configuración e instalación. Vos solo usás el panel de control, que es simple e intuitivo.</p>
+      </div>
+      <div class="faq-item">
+        <h4>¿El bot responde con el tono de mi negocio?</h4>
+        <p>Sí. Lo entrenamos con tu información, el tono y el estilo que nos indicás. El cliente recibe respuestas que suenan como las de tu equipo.</p>
+      </div>
+      <div class="faq-item">
+        <h4>¿Se instala en mi web actual?</h4>
+        <p>Sí. El chat web se integra en cualquier página existente con una línea de código. No hace falta cambiar nada del diseño actual.</p>
+      </div>
+      <div class="faq-item">
+        <h4>¿Qué pasa si el bot no sabe responder algo?</h4>
+        <p>El bot detecta cuando la consulta supera su conocimiento y deriva automáticamente a tu equipo con un resumen de la conversación.</p>
+      </div>
+      <div class="faq-item">
+        <h4>¿Cuánto tarda en estar funcionando?</h4>
+        <p>Entre 5 y 10 días hábiles desde que confirmás la contratación, dependiendo de la complejidad del negocio.</p>
+      </div>
+      <div class="faq-item">
+        <h4>¿Puedo actualizar la información del bot cuando quiero?</h4>
+        <p>Sí. Desde el panel podés actualizar precios, servicios, horarios y cualquier dato en cualquier momento.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<div class="cta-final">
+  <h2>¿Listo para automatizar<br>tu atención?</h2>
+  <p>Hablemos. Te mostramos cómo funciona con un ejemplo de tu propio negocio, sin costo.</p>
+  <button class="btn-cta" onclick="window.open('https://wa.me/543513606158','_blank')">
+    <svg viewBox="0 0 24 24" width="20" height="20" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    Agendar demo gratuita
+  </button>
+</div>
+
+<!-- CHAT WIDGET -->
+<div id="chat-bubble" onclick="toggleChat()">
+  <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/></svg>
+</div>
+
+<div id="chat-window" class="hidden">
+  <div id="chat-header">
+    <div class="avatar">🤖</div>
+    <div>
+      <div class="name">IA-Desk</div>
+      <div class="status">● En línea</div>
+    </div>
+    <button id="chat-close" onclick="toggleChat()">✕</button>
+  </div>
+  <div id="chat-messages"></div>
+  <div id="chat-input-area">
+    <textarea id="chat-input" rows="1" placeholder="Escribí tu consulta..." onkeydown="handleKey(event)"></textarea>
+    <button id="chat-send" onclick="enviarMensaje()">
+      <svg viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+    </button>
+  </div>
+</div>
+
+<script>
+  const API_URL = 'https://chatbot-ventas-7ij9.onrender.com/api/chatbot/web';
+  const sessionId = 'web_' + Math.random().toString(36).slice(2);
+  let chatAbierto = false;
+  let iniciado = false;
+
+  function toggleChat() {
+    chatAbierto = !chatAbierto;
+    document.getElementById('chat-window').classList.toggle('hidden', !chatAbierto);
+    if (chatAbierto && !iniciado) {
+      iniciado = true;
+      mostrarMensaje('bot', '¡Hola! 👋 Soy el asistente de IA-Desk. Puedo contarte cómo automatizar la atención de tu negocio o responder cualquier consulta.\n\n¿En qué te puedo ayudar?');
+    }
+    if (chatAbierto) setTimeout(() => document.getElementById('chat-input').focus(), 100);
+  }
+
+  function mostrarMensaje(rol, texto) {
+    const container = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = `msg ${rol}`;
+    div.textContent = texto;
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function mostrarTyping() {
+    const container = document.getElementById('chat-messages');
+    const div = document.createElement('div');
+    div.className = 'msg typing';
+    div.id = 'typing-indicator';
+    div.textContent = 'Escribiendo...';
+    container.appendChild(div);
+    container.scrollTop = container.scrollHeight;
+  }
+
+  function quitarTyping() {
+    const el = document.getElementById('typing-indicator');
+    if (el) el.remove();
+  }
+
+  function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); enviarMensaje(); }
+  }
+
+  async function enviarMensaje() {
+    const input = document.getElementById('chat-input');
+    const texto = input.value.trim();
+    if (!texto) return;
+    input.value = '';
+    mostrarMensaje('user', texto);
+    mostrarTyping();
+    try {
+      const res = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, mensaje: texto }),
+      });
+      const data = await res.json();
+      quitarTyping();
+      mostrarMensaje('bot', data.respuesta);
+    } catch {
+      quitarTyping();
+      mostrarMensaje('bot', 'Hubo un error al conectar. Por favor intentá de nuevo en un momento.');
+    }
+  }
+</script>
+
+</body>
+</html>
